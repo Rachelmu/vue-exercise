@@ -6,7 +6,10 @@ new Vue({
     // 一些数据
     data(){
         return{
-            content: 'This is a note'
+            content: 'This is a note',
+            notes: [],
+            // 选中笔记的ID
+            selectedId: null,
         }
     },
 
@@ -14,7 +17,13 @@ new Vue({
     computed: {
         notePreview(){
             // MarkDown 渲染为HTML
-            return marked(this.content)
+            // return marked(this.content)
+            return this.selectedNote ? marked(this.selectedNote.content) : ''
+        },
+        selectedNote(){
+            // 返回与selectedId匹配怼笔记
+            console.log(this.notes.find(note => note.id === this.selectedId))
+            return this.notes.find(note => note.id === this.selectedId)
         }
     },
 
@@ -31,18 +40,38 @@ new Vue({
         content(val, oldVal){
             console.log('new note', val, 'old note', oldVal)
             localStorage.setItem('content', this.content)
-        }
+        },
         // content: {
         //     handler: 'saveNote'
         // }
         // content: 'saveNote'
+        notes: 'saveNotes'
     },
 
     // 方法
     methods: {
-        saveNote(val){
-            console.log('saving note', val)
-            localStorage.setItem('content', this.content)
+        saveNotes(val){
+            // 在存储之前不要忘记把对象转换为JSON字符串
+            localStorage.setItem('notes',JSON.stringify(this.notes))
+            console.log('Notes saved!', new Date())
+        },
+        // 用一些默认值添加一条笔记，并将其添加到笔记数组中
+        addNote(){
+            const time = Date.now()
+
+            //  新笔记怼默认值
+            const note = {
+                id: String(time),
+                title: 'New note' + (this.notes.length + 1),
+                content: '**Hi!** This notebook is using [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for formatting!',
+                created: time,
+                favorite: false,
+            }
+            //  添加到列表中
+            this.notes.push(note)
+        },
+        selectNote(note){
+            this.selectedId =  note.id
         }
     },
 

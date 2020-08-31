@@ -12,17 +12,29 @@
 
   <!-- 笔记本应用 -->
   <div id="notebook">
-
-    <!-- 主面板 -->
-    <section class="main">
-      <textarea v-model="content"></textarea>
-    </section>
-
-    <!-- Preview pane -->
-    <aside class="preview" v-html="notePreview">
-        
+    <!-- Sidebar -->
+    <aside class="side-bar">
+        <!-- 工具栏 -->
+        <div class="toolbar">
+          <button @click="addNote" :title="notes.length + 'note(s) already'"><i class="material-icons">add</i> Add note</button>
+        </div>
+        <div class="notes">
+            <!-- 笔记列表显示在这里 -->
+            <div class="note" v-for="note in notes" @click="selectNote(note)" :class="{selected: note === selectedNote}">{{note.title}}</div>
+        </div>
     </aside>
-    {{notePreview}}
+
+    <template v-if="selectedNote">
+        <!-- 主面板 -->
+        <section class="main">
+            <textarea v-model="selectedNote.content"></textarea>
+        </section>
+    
+        <!-- 预览面板 -->
+        <aside class="preview" v-html="notePreview">
+        </aside>
+    </template>
+
   </div>
 
   <!-- Some JavaScript -->
