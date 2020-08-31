@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Notebook</title>
+  <!-- 图标和样式表 -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 在页面中包含JS库 -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/marked"></script>
+
+  <!-- 笔记本应用 -->
+  <div id="notebook">
+
+    <!-- 主面板 -->
+    <section class="main">
+      <textarea v-model="content"></textarea>
+    </section>
+
+    <!-- Preview pane -->
+    <aside class="preview" v-html="notePreview">
+        
+    </aside>
+    {{notePreview}}
+  </div>
+
+  <!-- Some JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
