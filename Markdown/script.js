@@ -7,9 +7,9 @@ new Vue({
     data(){
         return{
             content: 'This is a note',
-            notes: [],
+            notes: JSON.parse(localStorage.getItem('notes')) || [],
             // 选中笔记的ID
-            selectedId: null,
+            selectedId: localStorage.getItem('selected-id') || null,
         }
     },
 
@@ -45,7 +45,15 @@ new Vue({
         //     handler: 'saveNote'
         // }
         // content: 'saveNote'
-        notes: 'saveNotes'
+        notes: {
+            // 方法名
+            handler: 'saveNotes',
+            deep: true
+        },
+        // 保存选中项
+        selectedId(val){
+            localStorage.setItem('selected-id', val)
+        }
     },
 
     // 方法

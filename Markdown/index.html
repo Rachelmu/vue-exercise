@@ -27,6 +27,10 @@
     <template v-if="selectedNote">
         <!-- 主面板 -->
         <section class="main">
+            <div class="toolbar">
+                <!-- 新的工具栏添加在这里！ -->
+                <input type="text" v-model="selectedNote.title" placeholder="Note title">
+            </div>
             <textarea v-model="selectedNote.content"></textarea>
         </section>
     
