@@ -33,6 +33,30 @@ new Vue({
             return this.notes.slice()   // 创建新的副本，防止出发侦听器
                 .sort((a,b) => a.created - b.created)   // 按照时间大小排序
                 .sort((a,b) => (a.favorite === b.favorite) ? 0: a.favorite ? -1 : 1 )   // 
+        },
+        linesCount(){
+            if(this.selectedNote){
+                // 计算换行符怼个数
+                return this.selectedNote.content.split(/\r\n|\r|\n/).length
+            }
+        },
+        wordsCount(){
+            if(this.selectedNote){
+                var s = this.selectedNote.content
+                // 将换行符转换为空格
+                s = s.replace(/\n/g, '')
+                // 排除开头和结尾怼空格
+                s = s.replace(/(^\s*)|(\s*$)/gi, '')
+                // 将多个重复空格转换为一个
+                s = s.replace(/\s\s+/gi, '')
+                // 返回空格数量
+                return s.split('').length
+            }
+        },
+        charactersCount(){
+            if(this.selectedNote){
+                return this.selectedNote.content.split('').length
+            }
         }
     },
 
