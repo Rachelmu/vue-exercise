@@ -9,6 +9,7 @@
   <!-- 在页面中包含JS库 -->
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/marked"></script>
+  <script src="https://unpkg.com/moment"></script>
 
   <!-- 笔记本应用 -->
   <div id="notebook">
@@ -34,6 +35,13 @@
                 <button @click="removeNote" title="Remove note"><i class="material-icons">delete</i></button>
             </div>
             <textarea v-model="selectedNote.content"></textarea>
+            <div class="toolbar status-bar">
+              <!-- 新的状态栏在这里！ -->
+              <span class="date">
+                <span class="label">Created</span>
+                <span class="value">{{ selectedNote.created | date }}</span>
+              </span>
+            </div>
         </section>
     
         <!-- 预览面板 -->

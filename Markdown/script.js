@@ -1,3 +1,7 @@
+Vue.filter(
+    'date', time => moment(time)
+    .format('DD/MM/YY, HH: mm')
+)
 new Vue({
 
     // 根Dom元素的Css选择器
@@ -26,9 +30,9 @@ new Vue({
             return this.notes.find(note => note.id === this.selectedId)
         },
         sortedNotes(){
-            return this.notes.slice()
-                .sort((a,b) => a.created - b.created)
-                .sort((a,b) => (a.favorite === b.favorite) ? 0: a.favorite ? -1 : 1 )
+            return this.notes.slice()   // 创建新的副本，防止出发侦听器
+                .sort((a,b) => a.created - b.created)   // 按照时间大小排序
+                .sort((a,b) => (a.favorite === b.favorite) ? 0: a.favorite ? -1 : 1 )   // 
         }
     },
 
