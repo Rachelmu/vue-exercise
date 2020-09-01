@@ -20,7 +20,7 @@
         </div>
         <div class="notes">
             <!-- 笔记列表显示在这里 -->
-            <div class="note" v-for="note in notes" @click="selectNote(note)" :class="{selected: note === selectedNote}">{{note.title}}</div>
+            <div class="note" v-for="note in sortedNotes" @click="selectNote(note)" :class="{selected: note === selectedNote}"><i class="icon material-icons" v-if="note.favorite">star</i>{{note.title}}</div>
         </div>
     </aside>
 
