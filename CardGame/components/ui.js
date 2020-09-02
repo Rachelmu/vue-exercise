@@ -12,7 +12,7 @@ Vue.component('top-bar', {
 // 卡片组件
 Vue.component('card', {
     template: `
-    <div class="card" :class="'type-' + def.type">
+    <div class="card" :class="'type-' + def.type" @click="play">
         <div class="title">{{ def.title }} </div>
         <img class="separator" src="svg/card-separator.svg" />
         <div class="description">
@@ -24,5 +24,11 @@ Vue.component('card', {
     </div>
     `,
     props: ['def'],
-
+    methods: {
+        play(){
+            this.$emit('play')
+        }
+    }
 })
+
+// 手牌
