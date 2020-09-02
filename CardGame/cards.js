@@ -1,10 +1,16 @@
 let cards = [
   {
-    id: 'pikemen',
+    // 卡牌的唯一标识符
+    id: 'pikemen', 
+    // 修改卡牌背景颜色，以便区分
     type: 'attack',
+    // 显示卡牌的名字
     title: 'Pikemen',
+    // 一段HTML文本，用于说明卡片怼作用
     description: 'Spend 1 <b>Food</b><br>Deal 1 <b>Damage</b>',
+    // 一段可选的背景叙述，同样是HTML文本
     note: 'Send your disposable men to a certain death.',
+    // 当玩家出牌之后，会调用这个函数
     play (player, opponent) {
       player.food -= 1
       opponent.health -= 1
