@@ -51,3 +51,19 @@ Vue.component('hand', {
         }
     }
 })
+
+// 插槽
+Vue.component('overlay', {
+    template: `
+        <div class="overlay" @click="handleClick">
+            <div class="content">
+                <slot />
+            </div>
+        </div>
+    `,
+    methods: {
+        handleClick(){
+            this.$emit('close')
+        }
+    }
+})
