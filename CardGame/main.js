@@ -3,11 +3,18 @@ new Vue({
     el: '#app',
     template: `
         <div id= "#app">
-           <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
-           <card :def="testCard" @play="handlePlay"/>
+            <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
+            <hand :cards="testHand" />
+            <div class="wrapper">
+                
+            </div>
         </div>
     `,
     data: state,
+    created(){
+        this.testHand = this.createTestHead()
+        console.log(this.testHand)
+    },
     mounted(){
         console.log(this.$data === state)
     },
@@ -19,6 +26,31 @@ new Vue({
     methods:{
         handlePlay(){
             console.log("You played a card!")
+        },
+        createTestHead(){
+            const cards = []
+            // 遍历获取卡牌的id
+            const ids = Object.keys(cards)
+            // 抽取5张卡牌
+            for(let i= 0; i <5 ; i++){
+                cards.push(this.testDrawCard())
+            }
+            console.log(cards, 'cards')
+            return cards
+        },
+        testDrawCard(){
+            // 使用ID随机选取一张卡牌
+            const ids = Object.keys(cards)
+            const randomId = ids[Math.floor(Math.random() * ids.length)]
+            // 返回一张新的卡牌
+            return {
+                // 卡牌的唯一标识符
+                uid: cardUid++,
+                // 定义的id
+                id: randomId,
+                // 定义对象
+                def: cards[randomId]
+            }
         }
     }
 })

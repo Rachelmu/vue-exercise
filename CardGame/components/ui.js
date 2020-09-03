@@ -32,3 +32,14 @@ Vue.component('card', {
 })
 
 // 手牌
+Vue.component('hand', {
+    template: `
+    <div class="hand">
+        <div class="wrapper">
+            <card v-for="card of cards" :def="card.def" @play="handlePlay"/>
+        </div>
+    </div>
+    `,
+    props: ['cards'],
+    
+})
