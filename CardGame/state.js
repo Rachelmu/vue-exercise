@@ -25,5 +25,6 @@ var state = {
   // 当前玩家在players数组中的索引,随机使用0或1来决定谁先行动
   currentPlayerIndex: Math.round(Math.random()),
   testHand: [], // 临时属性
-  card: []
+  // 用户界面
+  activeOverlay: null,
 }

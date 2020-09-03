@@ -4,7 +4,9 @@ new Vue({
     template: `
         <div id= "#app">
             <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
-            <hand :cards="testHand" />
+            <transition name="fade">
+                <hand :cards="testHand" v-if="!activeOverlay"/>
+            </transition>
             <div class="wrapper">
                 
             </div>
@@ -13,7 +15,6 @@ new Vue({
     data: state,
     created(){
         this.testHand = this.createTestHead()
-        console.log(this.testHand)
     },
     mounted(){
         console.log(this.$data === state)
@@ -35,7 +36,6 @@ new Vue({
             for(let i= 0; i <5 ; i++){
                 cards.push(this.testDrawCard())
             }
-            console.log(cards, 'cards')
             return cards
         },
         testDrawCard(){
