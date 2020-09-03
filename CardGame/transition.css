@@ -31,3 +31,27 @@
 .hand-leave-to .card{
     margin: 0 -100px;
 }
+.card{
+    /* 用于进入、移动和鼠标悬停怼动画 */
+    transition: all .3 s;
+}
+.card-enter{
+    opacity: 0;
+    /* 从右边划入 */
+    transform: scale(.8) translateX(100px);
+}
+.card-leave-active{
+    /* 离开过渡的时间不同 */
+    transition: all 1s, opacity .5s .5s;
+    /* 保持水平位置不变 */
+    position: absolute !important;
+    /* 将玩家打出怼卡牌绘制于其他卡牌之上 */
+    z-index: 10;
+    /* 在过渡期间不允许单机 */
+    pointer-events: none;
+}
+.card-leave-to{
+    opacity: 0;
+    /* 卡牌上升怼同时放大 */
+    transform: translateX(-106px) translateY(-300px) scale(1.5);
+}

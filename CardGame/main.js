@@ -5,7 +5,7 @@ new Vue({
         <div id= "#app">
             <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
             <transition name="hand">
-                <hand :cards="testHand" v-if="!activeOverlay"/>
+                <hand :cards="testHand" v-if="!activeOverlay" @card-play="testPlayCard"/>
             </transition>
             <div class="wrapper">
                 
@@ -51,6 +51,12 @@ new Vue({
                 // 定义对象
                 def: cards[randomId]
             }
+        },
+        testPlayCard(card){
+            // 将卡牌从玩家手牌中移除即可
+            console.log('card')
+            const index = this.testHand.indexOf(card)
+            this.testHand.splice(index, 1)
         }
     }
 })
