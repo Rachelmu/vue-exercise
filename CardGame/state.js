@@ -17,9 +17,29 @@ var state = {
   players: [
     {
       name: 'Anne of Cleves',
+      // 游戏开始时的状态
+      food: 10,
+      health: 10,
+      // 是否跳过下个回合
+      skipTurn: false,
+      // 跳过了上个回合
+      skippedTurn: false,
+      hand: [],
+      lastPlayedCardId: null,
+      dead: false
     },
     {
       name: 'William the Bald',
+      // 游戏开始时的状态
+      food: 10,
+      health: 10,
+      // 是否跳过下个回合
+      skipTurn: false,
+      // 跳过了上个回合
+      skippedTurn: false,
+      hand: [],
+      lastPlayedCardId: null,
+      dead: false
     }
   ],
   // 当前玩家在players数组中的索引,随机使用0或1来决定谁先行动
@@ -27,4 +47,5 @@ var state = {
   testHand: [], // 临时属性
   // 用户界面
   activeOverlay: null,
+
 }
