@@ -7,9 +7,11 @@ new Vue({
             <transition name="hand">
                 <hand :cards="testHand" v-if="!activeOverlay" @card-play="testPlayCard"/>
             </transition>
-            <div class="wrapper">
-                
-            </div>
+
+            <transition name="fade">
+                <div class="overlay-background" v-if="activeOverlay" />
+            </transition>
+
             <transition name="zoom">
                 <overlay v-if="activeOverlay" :key="activeOverlay" @close="handleOverlayClose">
                 <component :is="'overlay-content-' + activeOverlay" :player="currentPlayer" :opponent="currentOpponent" :players="players" />
