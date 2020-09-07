@@ -161,7 +161,7 @@ const cloudAnimationDurations = {
       },
   
       initPosition () {
-        // Element width
+        // Element width 元素宽度
         const width = this.$el.clientWidth
         this.setPosition(-width, 0)
       },
@@ -169,10 +169,10 @@ const cloudAnimationDurations = {
       startAnimation (delay = 0) {
         const vm = this
   
-        // Element width
+        // Element width 元素宽度
         const width = this.$el.clientWidth
   
-        // Random animation duration
+        // Random animation duration 随机动画持续时间
         const { min, max } = cloudAnimationDurations
         const animationDuration = Math.random() * (max - min) + min
   
@@ -189,7 +189,7 @@ const cloudAnimationDurations = {
             vm.setPosition(this.value, top)
           })
           .onComplete(() => {
-            // With a random delay
+            // With a random delay 随机延迟
             this.startAnimation(Math.random() * 10000)
           })
           .start()
@@ -198,6 +198,8 @@ const cloudAnimationDurations = {
     mounted () {
       // We start the animation with a negative delay
       // So it begins midway
+      // 以负值延迟开始动画
+      // 所以动画将从中途开始
       this.startAnimation(-Math.random() * cloudAnimationDurations.min)
     },
 })

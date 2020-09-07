@@ -2,14 +2,19 @@ new Vue({
     name: 'game',
     el: '#app',
     template: `
-        <div id= "#app">
+        <div id= "#app" :class="cssClass">
             <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
+            
             <div class="world">
-                <castle v-for="(player,index) in players" :play="player" :index="index" />
+                <castle v-for="(player, index) in players" :player="player" :index="index" />
                 <div class="land" />
+                <div class="clouds">
+                    <cloud v-for="index in 10" :type="(index - 1) % 5 + 1" />
+                </div>
             </div>
+
             <transition name="hand">
-                <hand :cards="testHand" v-if="!activeOverlay" @card-play="testPlayCard"/>
+                <hand :cards="currentHand" v-if="!activeOverlay" @card-play="handlePlayCard" @card-leave-end="handleCardLeaveEnd"/>
             </transition>
 
             <transition name="fade">
@@ -25,14 +30,16 @@ new Vue({
     `,
     data: state,
     created(){
-        this.testHand = this.createTestHead()
+        // this.testHand = this.createTestHead()
     },
     mounted(){
-        console.log(this.$data === state)
+       beginGame()
     },
     computed: {
-        testCard(){
-            return cards.archers
+        cssClass(){
+            return {
+                'can-play': this.canPlay,
+            }
         }
     },
     methods:{
@@ -63,14 +70,42 @@ new Vue({
                 def: cards[randomId]
             }
         },
-        testPlayCard(card){
-            // 将卡牌从玩家手牌中移除即可
-            console.log('card')
-            const index = this.testHand.indexOf(card)
-            this.testHand.splice(index, 1)
-        }
+        // testPlayCard(card){
+        //     // 将卡牌从玩家手牌中移除即可
+        //     console.log('card')
+        //     const index = this.testHand.indexOf(card)
+        //     this.testHand.splice(index, 1)
+        // },
+        handlePlayCard(card){
+            playCard(card)
+        },
+        handleCardLeaveEnd(){
+            applyCard()
+        },
+        handleOverlayClose () {
+            overlayCloseHandlers[this.activeOverlay]()
+        },
     }
 })
+
+var overlayCloseHandlers = {
+    'player-turn' () {
+        if (state.turn > 1) {
+            state.activeOverlay = 'last-play'
+        } else {
+            newTurn()
+        }
+    },
+  
+    'last-play' () {
+        newTurn()
+    },
+    
+    'game-over' () {
+        // 重新加载游戏
+        document.location.reload()
+    },
+}
 
 // 窗口大小变化的处理
 window.addEventListener('resize', ()=> {
@@ -84,4 +119,86 @@ requestAnimationFrame(animate);
 function animate(time) {
   requestAnimationFrame(animate);
   TWEEN.update(time);
+}
+
+function beginGame(){
+    state.players.forEach(drawInitialHand)
+}
+
+function playCard (card) {
+    if (state.canPlay) {
+      state.canPlay = false
+      currentPlayingCard = card
+  
+      // Remove the card from player hand
+      // 将卡牌从玩家手牌中移除
+      const index = state.currentPlayer.hand.indexOf(card)
+      state.currentPlayer.hand.splice(index, 1)
+  
+      // Add the card to the discard pile
+      // 将卡牌放到弃牌堆里
+      addCardToPile(state.discardPile, card.id)
+    }
+}
+
+function applyCard () {
+    const card = currentPlayingCard
+  
+    applyCardEffect(card)
+  
+    // Wait a bit for the player to see what's going on
+    // 稍等一会，让玩家观察到发生了什么
+    setTimeout(() => {
+      // Check if the players are dead
+      // 检查玩家是否“死亡”
+      state.players.forEach(checkPlayerLost)
+  
+      if (isOnePlayerDead()) {
+        endGame()
+      } else {
+        nextTurn()
+      }
+    }, 700)
+}
+
+// 下一回合
+function nextTurn () {
+    state.turn ++
+    state.currentPlayerIndex = state.currentOpponentId
+    state.activeOverlay = 'player-turn'
+}
+
+// 新的回合
+function newTurn () {
+    state.activeOverlay = null
+    if (state.currentPlayer.skipTurn) {
+      skipTurn()
+    } else {
+      startTurn()
+    }
+}
+
+function skipTurn () {
+    state.currentPlayer.skippedTurn = true
+    state.currentPlayer.skipTurn = false
+    nextTurn()
+}
+  
+function startTurn () {
+    state.currentPlayer.skippedTurn = false
+     // 如果两名玩家都已经玩过一个回合
+    if (state.turn > 2) {
+        // Draw new card
+        // 抽一张新的卡牌
+        setTimeout(() => {
+            state.currentPlayer.hand.push(drawCard())
+            state.canPlay = true
+        }, 800)
+    } else {
+        state.canPlay = true
+    }
+}
+  
+function endGame () {
+    state.activeOverlay = 'game-over'
 }
