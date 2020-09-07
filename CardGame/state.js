@@ -47,5 +47,16 @@ var state = {
   testHand: [], // 临时属性
   // 用户界面
   activeOverlay: null,
-
+  // 返回player对象
+  get currentPlayer(){
+    return state.players[state.currentPlayerIndex]
+  },
+  // 返回对手player的索引
+  get currentOpponentId(){
+    return state.currentPlayerIndex === 0 ? 1 : 0
+  },
+  // 返回相应的player对象
+  get currentOpponent(){
+    return state.players[state.currentOpponentId]
+  }
 }

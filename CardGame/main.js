@@ -10,6 +10,11 @@ new Vue({
             <div class="wrapper">
                 
             </div>
+            <transition name="zoom">
+                <overlay v-if="activeOverlay" :key="activeOverlay" @close="handleOverlayClose">
+                <component :is="'overlay-content-' + activeOverlay" :player="currentPlayer" :opponent="currentOpponent" :players="players" />
+                </overlay>
+            </transition>
         </div>
     `,
     data: state,
