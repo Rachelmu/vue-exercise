@@ -20,18 +20,30 @@ export default{
 			error: null
 		}
 	},
-	created(){
-		fetch('http://localhost:3000/questions').then(response => {
+	// created(){
+	// 	fetch('http://localhost:3000/questions').then(response => {
+	// 		if (response.ok) {
+	// 			return response.json()
+	// 		}else {
+	// 			return Promise.reject('error')
+	// 		}
+	// 	}).then(result => {
+	// 		this.question = result
+	// 	}).catch(e => {
+	// 		this.error = e
+	// 	})
+	// }
+	async created(){
+		try{
+			const response = await fetch('http://localhost:3000/question')
 			if (response.ok) {
-				return response.json()
+				this.questions = await response.json()
 			}else {
-				return Promise.reject('error')
+				throw new Error('error')
 			}
-		}).then(result => {
-			this.question = result
-		}).catch(e => {
+		} catch (e){
 			this.error = e
-		})
+		}
 	}
 }
 </script>
