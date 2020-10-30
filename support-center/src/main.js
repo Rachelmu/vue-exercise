@@ -3,6 +3,8 @@ import Vue from 'vue'
 // import VueRouter from 'vue-router'
 import router from './router'
 
+import './global-components'
+
 Vue.config.productionTip = false
 // Vue.user(VueRouter)
 
