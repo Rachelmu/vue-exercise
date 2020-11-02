@@ -10,6 +10,7 @@
 				<p v-html="question.content"></p>
 			</article>
 		</section>
+		<Loading v-if="loading" />
 	</main>
 </template>
 <script>
@@ -17,7 +18,8 @@ export default{
 	data(){
 		return{
 			questions: [],
-			error: null
+			error: null,
+			loading: false
 		}
 	},
 	// created(){
@@ -34,16 +36,25 @@ export default{
 	// 	})
 	// }
 	async created(){
-		try{
-			const response = await fetch('http://localhost:3000/question')
-			if (response.ok) {
-				this.questions = await response.json()
-			}else {
-				throw new Error('error')
-			}
-		} catch (e){
+		this.loading = true
+		// try{
+		// 	const response = await fetch('http://localhost:3000/question')
+		// 	if (response.ok) {
+		// 		this.questions = await response.json()
+		// 	}else {
+		// 		throw new Error('error')
+		// 	}
+		// } catch (e){
+		// 	this.error = e
+		// }
+		// this.loading = false
+		try {
+			this.questions = await this.$fetch('question')
+		}
+		catch(e){
 			this.error = e
 		}
+		this.loading = false
 	}
 }
 </script>
