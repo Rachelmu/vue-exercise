@@ -5,7 +5,7 @@
 			Can't load the questions
 		</div>
 		<section class="list">
-			<article v-for="question of question" :key="question">
+			<article v-for="question of questions" :key="question">
 				<h2 v-html="question.title"></h2>
 				<p v-html="question.content"></p>
 			</article>
@@ -14,12 +14,20 @@
 	</main>
 </template>
 <script>
+import RemoteData from '../mixins/RemoteData'
+
 export default{
+	mixins: [
+		RemoteData({
+			questionList: 'questions',
+		})
+	],
 	data(){
 		return{
 			questions: [],
 			error: null,
-			loading: false
+			loading: false,
+			remoteDataLoading: 42
 		}
 	},
 	// created(){
