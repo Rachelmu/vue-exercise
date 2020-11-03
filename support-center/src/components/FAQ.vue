@@ -10,7 +10,7 @@
 				<p v-html="question.content"></p>
 			</article>
 		</section>
-		<Loading v-if="loading" />
+		<Loading v-if="hasRemoteErrors" />
 	</main>
 </template>
 <script>

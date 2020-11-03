@@ -6,3 +6,15 @@
         </p>
     </main>
 </template>
+<script>
+export default{
+	data(){
+		return{
+
+		}
+	},
+	created(){
+		console.log('state',this.$state)
+	}
+}
+</script>
